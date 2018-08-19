@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html ng-app='NarrowItDownApp'>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Narrow Down Your Menu Choice</title>
+  </head>
+  <body>
+   <div class="container" ng-controller='NarrowItDownController as menu'>
+    <h1>Click here to see our Chinese Menu options</h1>
+
+    <div class="form-group">
+      <input type="text" ng-model='menu.searchTerm' placeholder="search term" class="form-control">
+    </div>
+    <div class="form-group narrow-button">
+      <button class="btn btn-primary" ng-click='menu.logMenuItems(menu.searchTerm)'>Narrow It Down For Me!</button>
+    </div>
+    <br>
+  </br>
+
+    <div class="container">
+      <div class="progress">
+        <mat-progress-bar  ng-model='length' class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:{{length}}%">
+          {{length}}%
+        </mat-progress-bar>
+      </div>
+    </div>
+
+
+    <!-- found-items should be implemented as a component -->
+      <found-items
+      found="menu.found"
+      title="{{menu.title}}"
+      on-remove="menu.removeItems(index)">
+    </found-items>
+
+    <!-- progressBar will be displayed based on how many records are found -->
+
+
+    <div class="error" ng-if="menu.nothingFound">Nothing found</div>
+
+  </div>
+
+
+
+</body>
+</html>
