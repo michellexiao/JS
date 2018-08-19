@@ -1,7 +1,7 @@
 (function() {
 "use strict";
 
-angular.module('NarrowItDownApp')
+angular.module('loadingModule')
 .factory('loadingHttpInterceptor', LoadingHttpInterceptor);
 
 LoadingHttpInterceptor.$inject = ['$rootScope', '$q'];
@@ -15,7 +15,7 @@ LoadingHttpInterceptor.$inject = ['$rootScope', '$q'];
 function LoadingHttpInterceptor($rootScope, $q) {
 
   var loadingCount = 0;
-  var loadingEventName = 'spinner:activate';
+  var loadingEventName = 'loading:activate';
 
   return {
     request: function (config) {

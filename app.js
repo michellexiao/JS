@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-angular.module('NarrowItDownApp', [])
+angular.module('NarrowItDownApp', ['loadingModule'])
 .controller('NarrowItDownController', NarrowItDownController)
 .service('MenuSearchService',MenuSearchService)
 .constant('ApiBasePath', "https://michelle-course5.herokuapp.com")
@@ -34,8 +34,6 @@ NarrowItDownController.$inject = ['MenuSearchService','$scope','$rootScope'];
 function NarrowItDownController(MenuSearchService,$scope,$rootScope){
   var menu = this;
   $scope.length = 0;
-  $scope.requestStart = MenuSearchService.requestStart;
-  console.log("YX start of controller: "+$scope.requestStart);
 
   menu.logMenuItems = function (searchTerm){
 
@@ -45,8 +43,6 @@ function NarrowItDownController(MenuSearchService,$scope,$rootScope){
       menu.found = response;
       menu.title = "Found "+ menu.found.length + " items";
       $scope.length = menu.found.length;
-      console.log("YX Within Service Promise: "+$scope.requestStart);
-
 
       if (menu.found.length==0){
         menu.nothingFound = true;
@@ -75,7 +71,6 @@ MenuSearchService.$inject = ['$http','ApiBasePath'];
 function MenuSearchService($http, ApiBasePath){
   var service = this;
   service.requestStart = false;
-console.log("Within Service - start: "+service.requestStart);
 
   // service.nothingFound = false;
 
@@ -92,7 +87,6 @@ console.log("Within Service - start: "+service.requestStart);
 
     .then(function (response) {
       service.requestStart = true;
-      console.log("Within Service - then: "+service.requestStart);
 
       console.log("All items: ",response.data);
       // process result and only keep items that match
@@ -119,7 +113,6 @@ console.log("Within Service - start: "+service.requestStart);
       console.log('Found items: ',foundItems);
       console.log("Totally: ", foundItems.length);
       service.requestStart = false;
-      console.log("Within Service - done: "+service.requestStart);
 
 
       // return processed items
