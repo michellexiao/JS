@@ -20,8 +20,6 @@ function LoadingController ($rootScope) {
   $ctrl.$onInit = function() {
     $ctrl.show = false;
     listener = $rootScope.$on('loading:activate', onSpinnerActivate);
-    console.log("Percentage "+$ctrl.percentage);
-
   };
 
   $ctrl.$onDestroy = function() {
