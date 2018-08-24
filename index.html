@@ -34,8 +34,10 @@
     <!-- found-items should be implemented as a component -->
       <found-items
       found="menu.found"
+      order="menu.order"
       title="{{menu.title}}"
-      on-remove="menu.removeItems(index)">
+      on-remove="menu.removeItems(index)"
+      put-back="menu.putBackItems(index)">
     </found-items>
 
     <!-- progressBar will be displayed based on how many records are found -->

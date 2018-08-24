@@ -12,9 +12,11 @@ function FoundItemsDirective(){
     templateUrl: 'foundItems.html',
     scope:{
       found:'<',
+      order:'<',
       nothingFound: '<',
       myTitle: '@title',
-      onRemove: '&'
+      onRemove: '&',
+      putBack: '&'
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'list',
@@ -29,11 +31,14 @@ function FoundItemsDirectiveController(){
 
 }
 
-NarrowItDownController.$inject = ['MenuSearchService','$scope','$rootScope'];
+NarrowItDownController.$inject = ['MenuSearchService'];
 
-function NarrowItDownController(MenuSearchService,$scope,$rootScope){
+function NarrowItDownController(MenuSearchService){
   var menu = this;
-  $scope.length = 0;
+
+  menu.order = [];
+  menu.orderTitle = "Ordered "+menu.order.legnth + " items";
+
 
   menu.logMenuItems = function (searchTerm){
 
@@ -42,7 +47,7 @@ function NarrowItDownController(MenuSearchService,$scope,$rootScope){
     promise.then(function(response){
       menu.found = response;
       menu.title = "Found "+ menu.found.length + " items";
-      $scope.length = menu.found.length;
+    //  $scope.length = menu.found.length;
 
       if (menu.found.length==0){
         menu.nothingFound = true;
@@ -59,10 +64,29 @@ function NarrowItDownController(MenuSearchService,$scope,$rootScope){
 
 
   menu.removeItems = function(itemIndex){
+    var item = {
+      name: menu.found[itemIndex].name,
+      short_name: menu.found[itemIndex].short_name,
+      description: menu.found[itemIndex].description
+    };
+    menu.order.push(item);
     menu.found.splice(itemIndex,1);
     menu.title = "Found "+ menu.found.length + " items";
+    menu.orderTitle = "You ordered "+menu.order.legnth + " items";
+    console.log("How many? "+menu.order.legnth);
+    //console.log("Ordered: "+menu.order[itemIndex].name);
   };
 
+  menu.putBackItems = function(itemIndex){
+    var item = {
+      name: menu.order[itemIndex].name,
+      short_name: menu.order[itemIndex].short_name,
+      description: menu.order[itemIndex].description
+    };
+    menu.found.push(item);
+    menu.order.splice(itemIndex,1);
+    menu.title = "Found "+ menu.found.length + " items";
+  };
 
 }
 
@@ -124,5 +148,8 @@ function MenuSearchService($http, ApiBasePath){
   };
 
 }
+
+
+
 
 })();
